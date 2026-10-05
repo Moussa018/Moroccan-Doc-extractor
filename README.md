@@ -6,7 +6,7 @@ Pour l'instant : permis de conduire (données synthétiques).
 ## Pipeline
 
 ```
-image ──► OCR (RapidOCR) ──► lignes {text, score, box} ──► parseur (config JSON) ──► champs
+image ──► OCR (RapidOCR) ──► lignes {text, score, box} ──► parseur (Rust, config JSON) ──► champs
 ```
 
 ## Installation
@@ -14,6 +14,13 @@ image ──► OCR (RapidOCR) ──► lignes {text, score, box} ──► par
 ```bash
 pip install -r requirements.txt
 playwright install chromium   # uniquement pour générer les données
+```
+
+Parseur Rust (optionnel, nécessite Rust ; sans lui, une version Python identique est utilisée) :
+
+```bash
+pip install maturin
+cd rust && maturin develop --release
 ```
 
 ## Utilisation
@@ -52,7 +59,8 @@ Exemple de sortie :
 |---|---|
 | `data/generate_license.py` | Génère les images et les labels (valeurs et boîtes) |
 | `src/ocr/rapid_engine.py` | `OCREngine.read(image)` → lignes de texte avec boîtes |
-| `src/parsing/parser.py` | `parse(lines, config)` : trouve chaque libellé et lit la valeur en dessous |
+| `src/parsing/parser.py` | `parse(lines, config)` : appelle le cœur Rust, ou le repli Python |
+| `rust/` | Cœur du parseur en Rust (PyO3) : trouve chaque libellé et lit la valeur en dessous |
 | `configs/license.json` | Configuration du parseur pour les permis |
 | `src/cli.py` | Ligne de commande : OCR puis parsing, sortie JSON |
 | `eval/eval_ocr.py` | Évaluation face aux labels |

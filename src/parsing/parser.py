@@ -1,6 +1,11 @@
 import json
 import re
 import unicodedata
+
+try:  # coeur Rust optionnel : cd rust && maturin develop --release
+    import docparse
+except ImportError:
+    docparse = None
 from pathlib import Path
 
 DEFAULT_CONFIG = Path(__file__).resolve().parent.parent.parent / "configs" / "license.json"
@@ -39,7 +44,14 @@ def _extract(spec, text):
 
 
 def parse(lines, config=None):
+    """lines: [{text, score, box}] de OCREngine.read -> {champ: valeur} selon la config."""
     config = config or load_config()
+    if docparse is not None:
+        return json.loads(docparse.parse(json.dumps(lines), json.dumps(config)))
+    return _parse_py(lines, config)
+
+
+def _parse_py(lines, config):
     fields = config["fields"]
     x_tol = config.get("x_tol", 2)
     max_gap = config.get("max_gap", 3)
