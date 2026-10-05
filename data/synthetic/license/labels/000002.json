@@ -1,0 +1,62 @@
+{
+  "fields": {
+    "surname": "MANSOURI",
+    "given_name": "Nadia",
+    "dob": "28/03/1991",
+    "pob": "Tetouan",
+    "issue_date": "20/03/2021",
+    "expiry_date": "20/03/2031",
+    "license_no": "SP-19724825",
+    "categories": "B"
+  },
+  "boxes": {
+    "surname": [
+      520,
+      196,
+      732,
+      246
+    ],
+    "given_name": [
+      520,
+      326,
+      652,
+      376
+    ],
+    "dob": [
+      520,
+      456,
+      785,
+      506
+    ],
+    "pob": [
+      1040,
+      456,
+      1225,
+      506
+    ],
+    "issue_date": [
+      520,
+      586,
+      785,
+      636
+    ],
+    "expiry_date": [
+      1040,
+      586,
+      1305,
+      636
+    ],
+    "license_no": [
+      520,
+      716,
+      811,
+      766
+    ],
+    "categories": [
+      1040,
+      716,
+      1066,
+      766
+    ]
+  }
+}
