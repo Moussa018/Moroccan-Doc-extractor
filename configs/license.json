@@ -1,0 +1,14 @@
+{
+  "x_tol": 2,
+  "max_gap": 3,
+  "fields": {
+    "surname":     {"labels": ["surname"]},
+    "given_name":  {"labels": ["given", "prenom"]},
+    "dob":         {"labels": ["date de naissance"], "pattern": "\\d{2}/\\d{2}/\\d{4}", "fix_digits": true},
+    "pob":         {"labels": ["lieu"]},
+    "issue_date":  {"labels": ["delivre"], "pattern": "\\d{2}/\\d{2}/\\d{4}", "fix_digits": true},
+    "expiry_date": {"labels": ["expire"], "pattern": "\\d{2}/\\d{2}/\\d{4}", "fix_digits": true},
+    "license_no":  {"labels": ["du permis"], "pattern": "SP-?\\s?(\\d{8})", "format": "SP-{}", "search_all": true},
+    "categories":  {"labels": ["categor"]}
+  }
+}
