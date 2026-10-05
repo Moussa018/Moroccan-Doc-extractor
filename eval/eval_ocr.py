@@ -5,11 +5,11 @@ import json
 import sys
 from collections import defaultdict
 from pathlib import Path
+from paddleocr import PaddleOCR
 
-from paddleocr import paddleOCR 
 
 
-DATA = Path("/data/synthetic/lisence")
+DATA = Path(__file__).resolve().parent.parent / "data" / "synthetic" / "license"
 
 MARGIN = 10
 
@@ -21,28 +21,29 @@ def levenshtein(a,b):
         cur = [i]
         for j , cb in enumerate(b,1):
             cur.append(min(prev[j]+1 , cur[j-1] + 1 , prev[j-1] + (ca!=cb)))
-        prev = curr
+        prev = cur
     return prev[-1]
 
 def norm(s):
     return " ".join(s.split())
 
- """Retourne [(texte, [x1,y1,x2,y2]), ...] pour une image."""
+"""Retourne [(texte, [x1,y1,x2,y2]), ...] pour une image."""
 def get_lines(res):
-    text = res["rec_texts"]
+    """Retourne [(texte, [x1,y1,x2,y2]), ...] pour une image."""
+    texts = res["rec_texts"]
     boxes = res.get("rec_boxes")
-    if boxes is None or len(boxes) == 0 :
+    if boxes is None or len(boxes) == 0:
         boxes = []
         for poly in res["rec_polys"]:
             xs = [p[0] for p in poly]
             ys = [p[1] for p in poly]
             boxes.append([min(xs), min(ys), max(xs), max(ys)])
-        return [(t, [float(v) for v in b]) for t , b in zip(texts, boxes)]
+    return [(t, [float(v) for v in b]) for t, b in zip(texts, boxes)]
 
 def read_fields(lines , gt_boxes):
     out = {}
 
-    for key , {x1,y1,x2,y2} in gt_boxes.items():
+    for key , (x1,y1,x2,y2) in gt_boxes.items():
         hits = []
         for text , b in lines :
             cx, cy = (b[0]+b[2])/2 , (b[1]+b[3])/2
